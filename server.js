@@ -18,6 +18,13 @@ app.use(helmet());
 
 const PORT = process.env.PORT || 8000;
 
+dbConfig();
+
+// apis
+import adminUserRouter from "./src/routers/adminUserRouter.js";
+import { dbConfig } from "./src/config/dbConfig.js";
+app.use("/api/v1/admin-user", adminUserRouter);
+
 app.get("/", (req, res) => {
   res.json({
     message: "Hi there, you got lost?",

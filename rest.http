@@ -4,4 +4,15 @@ GET http://localhost:8000/
 #=== Adin API
 
 ### pot new admin user
-POST http://localhost:8000/
+POST http://localhost:8000/api/v1/admin-user
+Content-Type: application/json
+
+{
+    "fName": "Yubaraj",
+    "lName": "Magar",
+    "email": "a@a.com",
+    "password": "123456",
+    "phone": "0414257573",
+    "address": "39 Telopea Ave, HomebushWest",
+    "dob": "2020-02-20"
+}
