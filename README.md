@@ -16,7 +16,7 @@ All the Admin api endpoints will follow the following patterns `{rootUrl}/api/v1
 
 |---|---|---|---|----|
 
-| 1. || "/" | POST | NO | Receives new admin data and create new admin in our database. If admin user's email already exist, it will return error otherwise it will return success with user info from database. |
+| 1. | "/" | POST | NO | Receives new admin data and create new admin in our database. If admin user's email already exist, it will return error otherwise it will return success with user info from database. |
 
 | 2. | "/verify-email" | PATCH | NO | Receives `{email, verificationCode}` to verify newly created user account, return success or error accordingly. |
 
