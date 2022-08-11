@@ -1,9 +1,20 @@
 import express from "express";
-import { hashPassword } from "../helpers/bcryptHelper.js";
-import { newAdminUserValidation } from "../middlewares/joi-validation/AdminUserValidation.js";
-import { insertAdminUser } from "../model/adminUser/AdminUserModel.js";
+import { comparePassword, hashPassword } from "../helpers/bcryptHelper.js";
+import {
+  emailVerificationValidation,
+  loginValidation,
+  newAdminUserValidation,
+} from "../middlewares/joi-validation/AdminUserValidation.js";
+import {
+  findOneAdminUser,
+  insertAdminUser,
+  updateOneAdminUser,
+} from "../model/adminUser/AdminUserModel.js";
 import { v4 as uuidv4 } from "uuid";
-import { verificationEmail } from "../helpers/emailHelper.js";
+import {
+  verificationEmail,
+  verificationNotification,
+} from "../helpers/emailHelper.js";
 
 // server side validation -- install joi for server side validation
 // encrypt user password --- install bcrypt.js from npm
@@ -53,12 +64,62 @@ router.post("/", newAdminUserValidation, async (req, res, next) => {
   }
 });
 
-router.patch("/verify-email", (req, res, next) => {
+router.patch(
+  "/verify-email",
+  emailVerificationValidation,
+  async (req, res, next) => {
+    try {
+      const { emailValidationCode, email } = req.body;
+      const user = await updateOneAdminUser(
+        { emailValidationCode, email },
+        { status: "active", emailValidationCode: "" }
+      );
+      user?._id
+        ? res.json({
+            status: "success",
+            message: "Your account has been verified, you may login in now.",
+          }) && verificationNotification(user)
+        : res.json({
+            status: "error",
+            message: "Invalid or expired link, no action was taken",
+          });
+    } catch (error) {
+      //   Only if you have decalred global error handler
+      next(error);
+    }
+  }
+);
+
+router.post("/login", loginValidation, async (req, res, next) => {
   try {
-    console.log(req.body);
+    const { email, password } = req.body;
+    // find if user exist based on given email
+    const user = await findOneAdminUser({ email });
+
+    if (user?._id) {
+      // We need to verify if the password send by the user and the hash password store in our db is the same
+      if (user?.status !== "active") {
+        return res.json({
+          status: "error",
+          message:
+            "Your account has not been verfied, please check yoour email and verify your account",
+        });
+      }
+      const isMatched = comparePassword(password, user.password);
+      if (isMatched) {
+        user.password = undefined;
+        return res.json({
+          status: "success",
+          message: "Logged in successfully",
+          user,
+        });
+      }
+    }
+
     res.json({
-      status: "success",
-      message: "verify email todo create new user",
+      status: "error",
+      message: "Invalid login credintials",
+      user,
     });
   } catch (error) {
     //   Only if you have decalred global error handler

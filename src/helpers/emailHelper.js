@@ -47,3 +47,20 @@ export const verificationEmail = (emailData) => {
   };
   emailProcessor(emailBody);
 };
+
+// make sure the emailData has fName, email and url
+export const verificationNotification = (emailData) => {
+  const emailBody = {
+    from: '"Yubaraj Store 👻" <yubaraj.100mgr@gmail.com>', // sender address
+    to: emailData.email, // list of receivers
+    subject: "Your account has been verified", // Subject line
+    text: `${emailData.fName}, Your account has been verified, you may logged in now: ${emailData.url}`, // plain text body
+    html: `
+        <p>Hi ${emailData.fName}</p>
+        <br/>
+        <br/>
+        <p>Your account has been verified, you may logged in now.<a href="${process.env.ROOT_DOMAIN}"/> ${process.env.ROOT_DOMAIN}</p>
+        `, // html body
+  };
+  emailProcessor(emailBody);
+};
