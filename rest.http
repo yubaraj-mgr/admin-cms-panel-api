@@ -10,7 +10,7 @@ Content-Type: application/json
 {
     "fName": "Yubaraj",
     "lName": "Magar",
-    "email": "yubaraj.1000mgr@gmail.com",
+    "email": "divya.1000mgr@gmail.com",
     "password": "123456",
     "phone": "0414257573",
     "address": "39 Telopea Ave, HomebushWest",
@@ -20,6 +20,15 @@ Content-Type: application/json
 
 ### pot new admin user
 POST http://localhost:8000/api/v1/admin-user/login
+Content-Type: application/json
+
+{
+    "email": "yubaraj.1000mgr@gmail.com",
+    "password": "123456"
+}
+
+### pot new admin user
+PATCH  http://localhost:8000/api/v1/admin-user/verify-email
 Content-Type: application/json
 
 {

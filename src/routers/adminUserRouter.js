@@ -30,7 +30,7 @@ router.post("/", newAdminUserValidation, async (req, res, next) => {
     const { password } = req.body;
     // just overriding the password
     req.body.password = hashPassword(password);
-    // just adding enaother object in the object req.body
+    // just adding another object in the object req.body
     req.body.emailValidationCode = uuidv4();
     const user = await insertAdminUser(req.body);
     if (user?._id) {

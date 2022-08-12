@@ -7,7 +7,8 @@ import {
   PASSWORD,
   PHONE,
   SHORTSTR,
-} from "./constant";
+  validator,
+} from "./constant.js";
 
 export const newAdminUserValidation = (req, res, next) => {
   // define rules
@@ -18,7 +19,7 @@ export const newAdminUserValidation = (req, res, next) => {
     password: PASSWORD.required(),
     phone: PHONE,
     address: ADDRESS,
-    dob: DATE.allow("", null),
+    dob: Joi.date().allow("", null),
   });
   // give data to the rules
 
