@@ -15,6 +15,7 @@ import {
   verificationEmail,
   verificationNotification,
 } from "../helpers/emailHelper.js";
+import { createJWTs, signAccessJWT } from "../helpers/jwtHelper.js";
 
 // server side validation -- install joi for server side validation
 // encrypt user password --- install bcrypt.js from npm
@@ -39,6 +40,7 @@ router.post("/", newAdminUserValidation, async (req, res, next) => {
         message:
           "We have sent you an email to verify your account, please check your email box including junk folder",
       });
+      // 1. Why this url, because we the user clik on verify link, they will go to this url and our patch mathod will trigger which will change status and emailCode
       const url = `${process.env.ROOT_DOMAIN}/admin/verify-email?c=${user.emailValidationCode}&e=${user.email}`;
       verificationEmail({
         fName: user.fName,
@@ -69,6 +71,7 @@ router.patch(
   emailVerificationValidation,
   async (req, res, next) => {
     try {
+      console.log(req.body);
       const { emailValidationCode, email } = req.body;
       const user = await updateOneAdminUser(
         { emailValidationCode, email },
@@ -108,10 +111,14 @@ router.post("/login", loginValidation, async (req, res, next) => {
       const isMatched = comparePassword(password, user.password);
       if (isMatched) {
         user.password = undefined;
+        //  JWT
+        // await here because await in jwtHelper before return
+        const jwts = await createJWTs({ email });
         return res.json({
           status: "success",
           message: "Logged in successfully",
           user,
+          ...jwts,
         });
       }
     }

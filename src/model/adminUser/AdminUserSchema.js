@@ -14,14 +14,14 @@ const adminUserSchema = new mongoose.Schema(
     lName: {
       type: String,
       required: true,
-      maxLength: [20, "First name can't be loogert than 20 charactersic"],
+      maxLength: [20, "last name can't be loogert than 20 charactersic"],
     },
     email: {
       type: String,
       unique: true,
       index: 1,
       required: true,
-      maxLength: [50, "First name can't be loogert than 50 charactersic"],
+      maxLength: [50, "email name can't be loogert than 50 charactersic"],
     },
     password: {
       type: String,
@@ -30,11 +30,11 @@ const adminUserSchema = new mongoose.Schema(
     phone: {
       type: String,
       require: true,
-      maxLength: [15, "First name can't be loogert than 15 charactersic"],
+      maxLength: [15, "phone name can't be loogert than 15 charactersic"],
     },
     address: {
       type: String,
-      maxLength: [100, "First name can't be loogert than 100 charactersic"],
+      maxLength: [100, "address name can't be loogert than 100 charactersic"],
       default: "n/a",
     },
     dob: {
@@ -42,6 +42,10 @@ const adminUserSchema = new mongoose.Schema(
       default: null,
     },
     emailValidationCode: {
+      type: String,
+      default: "",
+    },
+    refreshJWT: {
       type: String,
       default: "",
     },

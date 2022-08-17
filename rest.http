@@ -10,7 +10,7 @@ Content-Type: application/json
 {
     "fName": "Yubaraj",
     "lName": "Magar",
-    "email": "divya.1000mgr@gmail.com",
+    "email": "divya.100mgr@gmail.com",
     "password": "123456",
     "phone": "0414257573",
     "address": "39 Telopea Ave, HomebushWest",
@@ -23,7 +23,7 @@ POST http://localhost:8000/api/v1/admin-user/login
 Content-Type: application/json
 
 {
-    "email": "yubaraj.1000mgr@gmail.com",
+    "email": "divya.100mgr@gmail.com",
     "password": "123456"
 }
 
