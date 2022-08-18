@@ -17,6 +17,20 @@ Content-Type: application/json
     "dob": "2020-02-20"
 }
 
+### pot new admin user
+POST http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+   "status": "active",
+   "name": "yusd",
+   "parentId": ""
+}
+
+### pot new admin user
+GET  http://localhost:8000/api/v1/category
+
+
 
 ### pot new admin user
 POST http://localhost:8000/api/v1/admin-user/login
